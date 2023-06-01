@@ -1,7 +1,10 @@
+import AddTodo from "./components/AddTodo";
+
 function App() {
   return (
     <>
-      <div>Simple Vite App</div>
+      <div>Simple todo App</div>
+      <AddTodo />
     </>
   );
 }
