@@ -7,20 +7,27 @@ const AddTodo = () => {
   const dispatch = useDispatch();
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const todoToAdd = {
-      todoTitle: inputVal,
-    };
-    dispatch(addTodo(todoToAdd));
+    if (inputVal)
+      dispatch(
+        addTodo({
+          todoTitle: inputVal,
+        })
+      );
+    setInputVal("");
   };
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="d-flex mb-3 ">
         <input
+          className="form-control form-control-lg"
           type="text"
           value={inputVal}
+          placeholder="Add Todo here..."
           onChange={(event) => setInputVal(event.target.value)}
         ></input>
-        <button type="submit">Add Todo</button>
+        <button type="submit" className="btn btn-primary mx-3">
+          Add Todo
+        </button>
       </form>
     </>
   );
