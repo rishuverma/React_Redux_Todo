@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { toggleComplete, deleteTodo } from "../features/todoSlice";
+import { toggleComplete, deleteTodo, changeTodo } from "../features/todoSlice";
 
 const TodoItem = ({ id, todoTitle, completed }: any) => {
   const dispatch = useDispatch();
@@ -8,6 +8,9 @@ const TodoItem = ({ id, todoTitle, completed }: any) => {
   };
   const handleButtonClick = () => {
     dispatch(deleteTodo({ id }));
+  };
+  const handleChangeClick = () => {
+    dispatch(changeTodo({ id }));
   };
   return (
     <>
@@ -22,6 +25,9 @@ const TodoItem = ({ id, todoTitle, completed }: any) => {
         <span className={`m-2 ${completed && "text-decoration-line-through"}`}>
           {todoTitle}
         </span>
+        <button onClick={handleChangeClick} className="btn mx-2 btn-success">
+          Change
+        </button>
         <button onClick={handleButtonClick} className="btn mx-2 btn-danger">
           Delete
         </button>

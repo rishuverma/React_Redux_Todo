@@ -8,7 +8,7 @@ const AllTodo = () => {
     <>
       <div className="card">
         <div>
-          {todo.map((item: any) => (
+          {todo.todoArray.map((item: any) => (
             <TodoItem
               key={item.id}
               id={item.id}

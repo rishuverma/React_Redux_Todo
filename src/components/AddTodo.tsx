@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../features/todoSlice";
 
 const AddTodo = () => {
-  const [inputVal, setInputVal] = useState("");
+  const todo = useSelector((state: any) => state.todo);
+  const [inputVal, setInputVal] = useState(todo.textInInputBox);
   const dispatch = useDispatch();
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -15,6 +16,10 @@ const AddTodo = () => {
       );
     setInputVal("");
   };
+  useEffect(
+    () => setInputVal(todo.textInInputBox),
+    [todo.textInInputBox, todo.todoArray]
+  );
   return (
     <>
       <form onSubmit={handleSubmit} className="d-flex mb-3 ">
