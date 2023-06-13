@@ -9,6 +9,10 @@ export const apiSlice = createApi({
       query: () => "/todos",
       providesTags: ["Todos"],
     }),
+    getRandomTodo: builder.query<any, void>({
+      query: () => "/todos/random",
+      providesTags: ["Todos"],
+    }),
   }),
 });
-export const { useGetTodosQuery } = apiSlice;
+export const { useGetTodosQuery, useLazyGetRandomTodoQuery } = apiSlice;

@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../features/todoSlice";
-import { useGetTodosQuery } from "../features/api/apiSlice";
+import {
+  useGetTodosQuery,
+  useLazyGetRandomTodoQuery,
+} from "../features/api/apiSlice";
 
 const AddTodo = () => {
   const todo = useSelector((state: any) => state.todo);
@@ -9,6 +12,9 @@ const AddTodo = () => {
   const [inputVal, setInputVal] = useState(todo.textInInputBox);
   const dispatch = useDispatch();
   const { data, isLoading, isSuccess, isError, error } = useGetTodosQuery();
+  const [trigger, randomTodoData] = useLazyGetRandomTodoQuery();
+
+  const numOfTodosToFetch = 3;
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -24,12 +30,24 @@ const AddTodo = () => {
     setInputVal(event.target.value);
   };
   useEffect(() => {
+    if (randomTodoData.isSuccess) {
+      console.log("random todo fetch data here", randomTodoData.data);
+      dispatch(
+        addTodo({
+          todoTitle: randomTodoData.data.todo,
+          completed: randomTodoData.data.completed,
+        })
+      );
+    }
+  }, [randomTodoData.isSuccess, randomTodoData.data]);
+  useEffect(() => {
     if (inputValRef.current) inputValRef.current.focus();
     setInputVal(todo.textInInputBox);
   }, [todo.textInInputBox]);
   useEffect(() => {
     if (isSuccess) {
-      data.todos.map((item: any) => {
+      const modifiedArrayTodos = data.todos.slice(0, numOfTodosToFetch);
+      modifiedArrayTodos.map((item: any) => {
         dispatch(
           addTodo({
             todoTitle: item.todo,
@@ -55,6 +73,9 @@ const AddTodo = () => {
         ></input>
         <button type="submit" className="btn btn-primary mx-3">
           Add Todo
+        </button>
+        <button className="btn btn-primary" onClick={() => trigger()}>
+          Add Random Todo
         </button>
       </form>
       {isLoading ? <div>Loading...</div> : null}
