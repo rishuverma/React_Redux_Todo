@@ -39,7 +39,8 @@ const AddTodo = () => {
         );
       });
     }
-  }, [isSuccess, data]);
+    if (isError) console.log("error occured while fetching the data", error);
+  }, [isSuccess, data, isError]);
 
   return (
     <>
